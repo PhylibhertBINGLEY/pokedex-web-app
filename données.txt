@@ -1,0 +1,1 @@
+KEY : 11461 ; NAME : Yasmine ; TYPE : Bug ; ABILITY : Chlorophyll ; 

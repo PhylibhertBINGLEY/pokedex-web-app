@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+
+    <link rel="stylesheet" href="style.css">
+
+    <%- include('../partials/head'); %>
+</head>
+<body class="container" >
+
+
+<main>
+    <div class="jumbotron">
+
+        <!-- Création d'un pokemon -->
+        <h1>Create a new Pokemon</h1>
+    	<form action="" method="POST">
+    		<label>Name : </label>
+    		<input type="text" name="name" required /> <br> <!-- required permet d'obliger l'utilisateur à remplir le champ en question -->
+
+            <!-- Choix du type du pokemon --> 
+            <label for="type-select">Choose a type:</label>
+
+            <select name="type" id="type-select" required> <!-- J'ai appliqué required pour le nom, type, talent (ability) -->
+                <option value="" selected disabled>--Please choose a type--</option> <!-- selected disabled : on ne peut pas choisir le choix par défaut --> 
+                <% typesArray.forEach(function(type) { %>
+                <option value="<%- type.name %>"><%- type.name %></option>
+                <% }); %>
+            </select>
+
+            <br>
+            <!-- Choix du talent du pokemon -->
+            <label for="type-select">Choose an ability:</label>
+
+            <select name="ability" id="ability-select" required>
+                <option value="" selected disabled>--Please choose an ability--</option>
+                <% abilitiesArray.forEach(function(ability) { %>
+                <option value="<%- ability.name %>"><%- ability.name %></option>
+                <% }); %>
+            </select>
+            
+            <br>
+    		<input type="submit"/>
+    	</form>
+
+    </div>
+
+    <div>
+    	<ul>
+    	<% list.forEach(function(pokemon) { %>
+        <li>
+            Key : <%- pokemon.id %>
+            <br>
+            <strong> Name : <%- pokemon.name %></strong>   
+            <br>
+            <strong> Type : <%- pokemon.type %></strong> 
+            <br>
+            <strong> Ability : <%- pokemon.ability %></strong> 
+
+            <!-- Suppresion d'un pokemon -->
+             <form action="/delete" method="POST">
+                <input type="hidden" name="id" value="<%- pokemon.id %>"/>
+                <input type="submit" value="delete"/>
+            </form>
+            <br>
+
+            <br>
+            <!-- Maj d'un pokemon -->
+            <form action="/update" method="POST">
+                <label>New name : </label>
+    		    <input type="text" name="name"/ required value="<%- pokemon.name %>"> <!-- On applique required pour la modification également, et je préremplis le champ nom avec le nom entré lors de la création -->
+                <input type="submit" value="update"/>
+                <br>
+                <input type="hidden" name="id" value="<%- pokemon.id %>"/>
+
+                <!-- Choix d'un nouveau type pour le pokemon --> 
+                <label for="type-select">Choose a type:</label>
+
+                <select name="type" id="type-select" required>
+                    <% typesArray.forEach(function(type) { %>
+                        <% if (type.name === pokemon.type) { %>
+                            <option value="<%- type.name %>" selected><%- type.name %></option>  <!-- J'ai remis selected ici afin de préremplir le champ type avec le type rempli lors de la création -->
+                        <% } else { %>
+                            <option value="<%- type.name %>"><%- type.name %></option>
+                        <% } %>
+                    <% }); %>
+                </select>
+
+                <br>
+
+                <!-- Choix d'un nouveau talent (ability) pour le pokemon -->
+                <label for="type-select">Choose an ability:</label>
+
+                <select name="ability" id="ability-select" required>
+                    <% abilitiesArray.forEach(function(ability) { %>
+                        <% if (ability.name === ability.type) { %>
+                            <option value="<%- ability.name %>" selected><%- ability.name %></option> <!-- J'ai remis selected ici afin de préremplir le champ abbility avec l'ability remplie lors de la création -->
+                        <% } else { %>
+                            <option value="<%- ability.name %>"><%- ability.name %></option>
+                        <% } %>
+                    <% }); %>
+                </select>
+                
+            </form>
+
+        </li>
+    <% }); %>
+        </ul>
+    </div>
+
+</main>
+
+<footer>
+    <%- include('../partials/footer'); %>
+</footer>
+
+</body>
+</html>
+
